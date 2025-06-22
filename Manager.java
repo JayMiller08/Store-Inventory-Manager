@@ -50,7 +50,8 @@ class Manager {
             System.out.println("<2> Add Product");
             System.out.println("<3> Add New Employee");
             System.out.println("<4> Remove Employee");
-            System.out.println("<5> Exit");
+            System.out.println("<5> Employee List");
+            System.out.println("<0> Exit");
 
             try{
                 System.out.print("Select: ");
@@ -70,7 +71,9 @@ class Manager {
                     break;
                 case 4: removeEmployee(sc, employees, iterator);
                     break;
-                case 5:
+                case 5: employeeList(employees, employee);
+                    break;
+                case 0:
                     System.out.println("Returning to Home Menu....");
                     managerMenuRunning = false;
                     break;
@@ -262,5 +265,25 @@ class Manager {
                 System.out.println("Invalid input.");
             }
         }
+    }
+    public static void employeeList ( ArrayList<Employee> employees, Employee employee){
+
+        boolean employeeListMenuRunning = true;
+
+        while (employeeListMenuRunning) {
+
+            if ( employees.isEmpty() ) {
+                System.out.println("No Employees in System.");
+            } else {
+                System.out.println("\n==== Employees ====\n");
+                for ( Employee e : employees ) {
+                    System.out.println( employee.toString() );
+                }
+
+                System.out.println("Returning to Menu...");
+                employeeListMenuRunning = false;
+            }
+        }
+
     }
 }

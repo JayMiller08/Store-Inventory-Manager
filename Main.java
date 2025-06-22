@@ -55,7 +55,7 @@ public class Main{
 
     public static void managerLoginMenu(Scanner sc, ArrayList<Manager> managers, Manager manager, Iterator iterator, ArrayList<Employee> employees) {
         boolean managerLoginMenuRunning = true;
-        int option_2 = 0, attempts = 5 ,iTry = 0;
+        int option_2 = 0, attempts = 3 ,iTry = 0;
 
         while (managerLoginMenuRunning) {
             System.out.println("Manager Login\n");
@@ -70,7 +70,7 @@ public class Main{
             for ( Manager i : managers ) {
                 if ( manager.getManagerUsername().equalsIgnoreCase(managerUsernameLogin) && manager.getManagerPin() == managerPinLogin ) {
                     System.out.println("Manager Access Granted");
-                    System.out.println("Manager: " + managers.indexOf(i) + 1 );
+                    System.out.println("Manager: " + managers.indexOf(i) + 1 +"\n");
                     found = true;
                     //after granting access to the manager, call the manager method/function
                     Manager.managerMenu(sc, employees, iterator, employee);
@@ -83,15 +83,14 @@ public class Main{
 
                 else {
                     attempts--;
-                    System.out.println("Access Denied.");
+                    System.out.println("Access Denied. Attempts remaining: "+attempts);
                 }
             }
             if (!found) {
-                System.out.println("No Managers Found. Error!\nReturning to Menu....");
+                System.out.println("Manager Not Found. Error!\nReturning to Menu....");
                 managerLoginMenuRunning = false;
             }
             if ( found && iTry == 1 ) {
-                System.out.println("Returning to Menu....");
                 managerLoginMenuRunning = false;
             }
         }
@@ -115,15 +114,18 @@ public class Main{
             for ( Employee e : employees ) {
                 if ( employeeUsernameLogin.equalsIgnoreCase(employee.getEmployeeUsername()) && employeePinLogin == employee.getEmployeePin() ) {
                     System.out.println("Access Granted!");
+                    System.out.println("Employee: " + employees.indexOf(e) + 1 );
                     Employee.employeeMenu();
                     found = true;
                 }
             }
             if (!found) {
-                System.out.println("No Employees Found. \nReturning to Menu....");
+                System.out.println("Employee Not Found. Error!\nReturning to Menu....");
                 employeeLoginMenuRunning = false;
             }
-            sc.nextLine();
+            if ( found ) {
+                employeeLoginMenuRunning = false;
+            }
         }
     }
 

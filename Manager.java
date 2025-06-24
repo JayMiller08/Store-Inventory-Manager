@@ -12,7 +12,7 @@ class Manager {
 
     static DecimalFormat df = new DecimalFormat("R#,###.00");
 
-
+    static Inventory inventory = new Inventory(productName, productCategory, productPrice);
     String managerUsername;
     int managerPin;
 
@@ -64,7 +64,7 @@ class Manager {
             switch ( option ) {
                 case 1: seeInventory(sc);
                     break;
-                case 2: addProduct(sc, inventoryArrayList);
+                case 2: addProduct(sc, inventoryArrayList, inventory);
                     break;
                 case 3:
                     addEmployee(sc, employees, employee);
@@ -95,11 +95,8 @@ class Manager {
                 System.out.println("Returning to Main Menu....\n");
                 seeInventoryMenuRunning = false;
             } else {
-                Inventory inventory = new Inventory(productName, productCategory, productPrice);
-
                 for ( Inventory i : inventoryArrayList ) {
-                    System.out.println(inventory.toString());
-
+                    System.out.println(i.toString());
                 }
 
             }
@@ -117,7 +114,7 @@ class Manager {
         }
     }
 
-    public static void addProduct(Scanner sc, ArrayList<Inventory> inventoryArrayList){
+    public static void addProduct(Scanner sc, ArrayList<Inventory> inventoryArrayList, Inventory inventory){
         boolean addProductMenuRunning = true;
         int option3;
         String productName, productCategory = "";
@@ -161,7 +158,11 @@ class Manager {
             System.out.print("Enter Product Price: ");
             productPrice = sc.nextDouble();
             sc.nextLine();
-            System.out.println("Successfully Added Product\nProduct Name: "+productName+", Category: "+productCategory+"\t\t"+df.format(productPrice));
+            System.out.println("Successfully Added Product\nProduct Name: "+productName+"\nCategory: "+productCategory+"\tPrice: "+df.format(productPrice));
+
+            inventory.setProductCategory(productCategory);
+            inventory.setProductName(productName);
+            inventory.setProductPrice(productPrice);
             Inventory newProduct = new Inventory(productName, productCategory, productPrice);
             inventoryArrayList.add(newProduct);
 
@@ -188,7 +189,7 @@ class Manager {
         String employeeName, employeeSurname, employeeUsername;
 
 
-        while ( addEmployeeMenuRunning ){
+        while ( addEmployeeMenuRunning ) {
 
             System.out.println("=== ADD EMPLOYEE ===\n");
             System.out.print("Employee Name: ");
@@ -196,11 +197,34 @@ class Manager {
             char cInitial = employeeName.charAt(0);
             System.out.print("Employee Surname: ");
             employeeSurname = sc.nextLine();
-            System.out.print("Employee Age: ");
-            employeeAge = sc.nextInt();
+
+            do {
+                System.out.print("Employee Age: ");
+                employeeAge = sc.nextInt();
+                if (employeeAge < 18) {
+                    System.out.println("Employee must 18 years or older.");
+                } else if ( employeeAge > 65 ) {
+                    System.out.println("Unable to hire a Senior citizen.");
+                }
+            } while (employeeAge < 18);
+
             sc.nextLine();
-            System.out.print("Please Set an Employee Pin (e.g. 12345): ");
-            employeePin = sc.nextInt();
+            boolean found;
+            do {
+                found = false;
+                System.out.print("Please Set an Employee Pin (e.g. 1234): ");
+                employeePin = sc.nextInt();
+                for (Employee e : employees) {
+                    if (employeePin == e.employeePin) {
+                        System.out.println("Pin Already Exists in System `Please Set Unique Pins`");
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    System.out.println("Pin Successfully Set");
+                }
+            } while (found);
+
             sc.nextLine();
             employeeUsername = Character.toUpperCase(cInitial) + employeeSurname + employeeAge;
 
@@ -222,12 +246,12 @@ class Manager {
             option4 = sc.nextInt();
             sc.nextLine();
 
-            if ( option4 == 1 )
+            if (option4 == 1)
                 System.out.println();
-            else if ( option4 == 0 ) {
+            else if (option4 == 0) {
                 System.out.println("Returning to Main Menu....");
                 addEmployeeMenuRunning = false;
-            }else
+            } else
                 System.out.println("Invalid Selection! Please Try Again.");
 
         }

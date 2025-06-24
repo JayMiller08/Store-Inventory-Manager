@@ -184,11 +184,12 @@ class Manager {
     }
     public static void addEmployee(Scanner sc, ArrayList<Employee> employees, Employee employee){
         boolean addEmployeeMenuRunning = true;
-        int option4, employeeAge, employeePin;
+        int option4, employeeAge, employeePin, i = 0;
         String employeeName, employeeSurname, employeeUsername;
 
 
-        while (addEmployeeMenuRunning){
+        while ( addEmployeeMenuRunning ){
+
             System.out.println("=== ADD EMPLOYEE ===\n");
             System.out.print("Employee Name: ");
             employeeName = sc.nextLine();
@@ -209,8 +210,10 @@ class Manager {
             employee.setEmployeePin(employeePin);
             employee.setEmployeeUsername(employeeUsername);
 
-            employees.add(employee);
-            System.out.println("Successfully Added: "+employeeUsername);
+            Employee newEmployee = new Employee(employeeUsername, employeeName, employeeSurname, employeeAge, employeePin);
+
+
+            employees.add(newEmployee);
 
             System.out.println("ADD ANOTHER EMPLOYEE? ");
             System.out.println("<1> YES");
@@ -220,12 +223,13 @@ class Manager {
             sc.nextLine();
 
             if ( option4 == 1 )
-                continue;
+                System.out.println();
             else if ( option4 == 0 ) {
                 System.out.println("Returning to Main Menu....");
                 addEmployeeMenuRunning = false;
             }else
                 System.out.println("Invalid Selection! Please Try Again.");
+
         }
     }
     public static void removeEmployee(Scanner sc,  ArrayList<Employee> employees, Iterator iterator){
@@ -266,7 +270,7 @@ class Manager {
             }
         }
     }
-    public static void employeeList ( ArrayList<Employee> employees, Employee employee){
+    public static void employeeList ( ArrayList<Employee> employees, Employee newEmployee){
 
         boolean employeeListMenuRunning = true;
 
@@ -274,10 +278,11 @@ class Manager {
 
             if ( employees.isEmpty() ) {
                 System.out.println("No Employees in System.");
+                break;
             } else {
                 System.out.println("\n==== Employees ====\n");
                 for ( Employee e : employees ) {
-                    System.out.println( employee.toString() );
+                    System.out.println( e.toString() );
                 }
 
                 System.out.println("Returning to Menu...");

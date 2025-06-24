@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class Main{
+    static ArrayList<Employee> employees = new ArrayList<>();
     static String employeeUsername = "", employeeName = "", employeeSurname = "";
     static int employeePin = 0, employeeAge = 0;
-    static Employee employee = new Employee(employeeUsername, employeeName, employeeSurname, employeeAge, employeePin);
-    static ArrayList<Employee> employees = new ArrayList<>();
-
     public static void main(String[] args){
 
         Scanner sc = new Scanner(System.in);
         ArrayList<Manager> managers = new ArrayList<>();
         Iterator<Employee> iterator = employees.iterator();
+        Employee employee = new Employee(employeeUsername, employeeName, employeeSurname, employeeAge, employeePin);
 
         String managerUsername = "314186";
         int managerPin = 2356;
@@ -38,7 +37,7 @@ public class Main{
             sc.nextLine();
 
             switch( option ){
-                case 1: managerLoginMenu(sc, managers, manager, iterator, employees);
+                case 1: managerLoginMenu(sc, managers, manager, iterator, employees, employee);
                     break;
                 case 2: employeeLoginMenu(sc, employees);
                     break;
@@ -53,7 +52,7 @@ public class Main{
         }
     }
 
-    public static void managerLoginMenu(Scanner sc, ArrayList<Manager> managers, Manager manager, Iterator iterator, ArrayList<Employee> employees) {
+    public static void managerLoginMenu(Scanner sc, ArrayList<Manager> managers, Manager manager, Iterator iterator, ArrayList<Employee> employees, Employee employee) {
         boolean managerLoginMenuRunning = true;
         int option_2 = 0, attempts = 3 ,iTry = 0;
 
@@ -112,9 +111,9 @@ public class Main{
             boolean found = false;
 
             for ( Employee e : employees ) {
-                if ( employeeUsernameLogin.equalsIgnoreCase(employee.getEmployeeUsername()) && employeePinLogin == employee.getEmployeePin() ) {
+                if ( employeeUsernameLogin.equalsIgnoreCase(e.getEmployeeUsername()) && employeePinLogin == e.getEmployeePin() ) {
                     System.out.println("Access Granted!");
-                    System.out.println("Employee: " + employees.indexOf(e) + 1 );
+                    System.out.println("Welcome: " + e);
                     Employee.employeeMenu();
                     found = true;
                 }

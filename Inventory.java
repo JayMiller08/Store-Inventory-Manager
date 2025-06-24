@@ -8,7 +8,7 @@ public class Inventory {
         this.productPrice = productPrice;
     }
 
-    public void setProductName(){
+    public void setProductName(String productName){
         this.productName = productName;
     }
 
@@ -34,7 +34,7 @@ public class Inventory {
 
     @Override
     public String toString(){
-        return "Product: "+productName+"\t\tPrice: "+productPrice+"\t-----Category: "+productCategory;
+        return "Product: "+productName+"\t\t\tPrice: "+productPrice+"\t\t\t-----Category: "+productCategory+"\n";
     }
 
 }
